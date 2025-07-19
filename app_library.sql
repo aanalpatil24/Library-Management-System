@@ -1,4 +1,4 @@
--- Library System Management SQL Project
+-- Library System Management Project
 
 -- CREATE DATABASE Library;
 -- Create and select the database

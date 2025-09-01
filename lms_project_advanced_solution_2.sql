@@ -114,6 +114,23 @@ GROUP BY e.emp_name, b.branch_id, b.manager_id
 ORDER BY no_book_issued DESC
 LIMIT 3;
 
+
+-- Task 18:  Identify Members Issuing High-Risk Books
+SELECT 
+    m.member_id,
+    m.member_name,
+    bk.book_title,
+    COUNT(*) AS times_damaged
+FROM issued_status ist
+JOIN members m ON m.member_id = ist.issued_member_id
+JOIN books bk ON bk.isbn = ist.issued_book_isbn
+JOIN return_status rs ON rs.issued_id = ist.issued_id
+WHERE rs.book_quality = 'Damaged'
+GROUP BY m.member_id, m.member_name, bk.book_title
+HAVING COUNT(*) > 2
+ORDER BY times_damaged DESC;
+
+
 -- Task 19: Issue Book Procedure
 DELIMITER $$
 
@@ -156,5 +173,18 @@ SET SQL_SAFE_UPDATES=0;
 SELECT * FROM books
 WHERE isbn = '978-0-375-41398-8';
 
--- 
-    
+-- Task 20: Create a CTAS (Create Table As Select) query to identify overdue books and calculate fines.
+
+CREATE TABLE overdue_fines AS
+SELECT 
+    ist.issued_member_id AS member_id,
+    COUNT(*) AS overdue_books,
+    SUM(GREATEST(DATEDIFF(CURDATE(), ist.issued_date) - 30, 0) * 0.50) AS total_fine,
+    COUNT(ist.issued_id) AS total_books_issued
+FROM issued_status ist
+LEFT JOIN return_status rs ON rs.issued_id = ist.issued_id
+WHERE rs.return_date IS NULL
+  AND DATEDIFF(CURDATE(), ist.issued_date) > 30
+GROUP BY ist.issued_member_id;
+
+-- End of the project

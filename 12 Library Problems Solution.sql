@@ -10,7 +10,7 @@ SELECT * FROM members;
 
 -- Task 1: Create a New Book Record
 INSERT INTO books(isbn, book_title, category, rental_price, status, author, publisher)
-VALUES ('978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'yes', 'Harper Lee', 'J.B. Lippincott & Co.');
+VALUES ('978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'Yes', 'Harper Lee', 'J.B. Lippincott & Co.');
 
 SELECT * FROM books;
 
@@ -43,13 +43,14 @@ GROUP BY ist.issued_emp_id, e.emp_name
 HAVING COUNT(ist.issued_id) > 1;
 
 -- Task 6: Create Summary Table of Book Issue Counts (CTAS)
+DROP TABLE IF EXISTS book_cnts;
 CREATE TABLE book_cnts AS    
 SELECT 
     b.isbn,
     b.book_title,
     COUNT(ist.issued_id) AS no_issued
 FROM books AS b
-JOIN issued_status AS ist ON ist.issued_book_isbn = b.isbn
+LEFT JOIN issued_status AS ist ON ist.issued_book_isbn = b.isbn
 GROUP BY b.isbn, b.book_title;
 
 SELECT * FROM book_cnts;
@@ -62,9 +63,9 @@ WHERE category = 'Classic';
 SELECT
     b.category,
     SUM(b.rental_price) AS total_income,
-    COUNT(*) AS issue_count
+   COUNT(ist.issued_id) AS issue_count
 FROM books AS b
-JOIN issued_status AS ist ON ist.issued_book_isbn = b.isbn
+LEFT JOIN issued_status AS ist ON ist.issued_book_isbn = b.isbn
 GROUP BY b.category;
 
 -- Task 9: List Members Who Registered in the Last 180 Days
@@ -87,6 +88,7 @@ JOIN branch AS b ON b.branch_id = e1.branch_id
 JOIN employees AS e2 ON b.manager_id = e2.emp_id;
 
 -- Task 11: Create Table of Books with Rental Price > 7 USD
+DROP TABLE IF EXISTS books_price_greater_than_seven;
 CREATE TABLE books_price_greater_than_seven AS    
 SELECT * FROM books
 WHERE rental_price > 7;

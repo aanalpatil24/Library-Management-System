@@ -8,21 +8,24 @@ USE Library;
 -- Drop and create 'branch' table
 DROP TABLE IF EXISTS branch;
 CREATE TABLE branch (
-    branch_id VARCHAR(10) PRIMARY KEY,
-    manager_id VARCHAR(10),
-    branch_address VARCHAR(100),
-    contact_no VARCHAR(15)
+    branch_id VARCHAR(15) PRIMARY KEY,
+    manager_id VARCHAR(15) NOT NULL,
+    branch_address VARCHAR(255) NOT NULL,
+    contact_no VARCHAR(15) NOT NULL
 );
 
 -- Drop and create 'employees' table
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
-    emp_id VARCHAR(10) PRIMARY KEY,
-    emp_name VARCHAR(50),
-    position VARCHAR(30),
+    emp_id VARCHAR(15) PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    position VARCHAR(25),
     salary DECIMAL(10,2),
-    branch_id VARCHAR(10),
+    branch_id VARCHAR(15),
     FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
+        ON DELETE SET NULL 
+        ON UPDATE CASCADE,
+	FOREIGN KEY (emp_id) REFERENCES branch(manager_id)
         ON DELETE SET NULL 
         ON UPDATE CASCADE
 );
@@ -30,33 +33,33 @@ CREATE TABLE employees (
 -- Drop and create 'members' table
 DROP TABLE IF EXISTS members;
 CREATE TABLE members (
-    member_id VARCHAR(10) PRIMARY KEY,
-    member_name VARCHAR(50),
-    member_address VARCHAR(100),
+    member_id VARCHAR(15) PRIMARY KEY,
+    member_name VARCHAR(50) NOT NULL,
+    member_address VARCHAR(255),
     reg_date DATE
 );
 
 -- Drop and create 'books' table
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
-    isbn VARCHAR(50) PRIMARY KEY,
-    book_title VARCHAR(100),
+    isbn VARCHAR(100) PRIMARY KEY,
+    book_title VARCHAR(255) NOT NULL,
     category VARCHAR(30),
     rental_price DECIMAL(10,2),
-    status VARCHAR(10), -- 'yes' or 'no'
+    status ENUM ('Yes','No') DEFAULT 'Yes',  -- 'Yes' available, 'No' issued
     author VARCHAR(50),
-    publisher VARCHAR(50)
+    publisher VARCHAR(100)
 );
 
 -- Drop and create 'issued_status' table
 DROP TABLE IF EXISTS issued_status;
 CREATE TABLE issued_status (
-    issued_id VARCHAR(10) PRIMARY KEY,
-    issued_member_id VARCHAR(10),
-    issued_book_name VARCHAR(100),
+    issued_id VARCHAR(15) PRIMARY KEY,
+    issued_member_id VARCHAR(15) NOT NULL,
+    issued_book_name VARCHAR(255),
     issued_date DATE,
-    issued_book_isbn VARCHAR(50),
-    issued_emp_id VARCHAR(10),
+    issued_book_isbn VARCHAR(100),
+    issued_emp_id VARCHAR(15),
     FOREIGN KEY (issued_member_id) REFERENCES members(member_id)
         ON DELETE CASCADE 
 		ON UPDATE CASCADE,
@@ -71,11 +74,12 @@ CREATE TABLE issued_status (
 -- Drop and create 'return_status' table
 DROP TABLE IF EXISTS return_status;
 CREATE TABLE return_status (
-    return_id VARCHAR(10) PRIMARY KEY,
-    issued_id VARCHAR(10),
-    return_book_name VARCHAR(100),
+    return_id VARCHAR(15) PRIMARY KEY,
+    issued_id VARCHAR(15) NOT NULL,
+    return_book_name VARCHAR(255),
     return_date DATE,
-    return_book_isbn VARCHAR(50),
+    return_book_isbn VARCHAR(100),
+    book_quality ENUM('Good', 'Damaged') DEFAULT 'Good',
     FOREIGN KEY (issued_id) REFERENCES issued_status(issued_id)
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
@@ -93,7 +97,7 @@ CREATE TABLE return_status (
 
 
 -- Task 1. Create a New Book Record
--- "978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'yes', 'Harper Lee', 'J.B. Lippincott & Co.')"
+-- '978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'yes', 'Harper Lee', 'J.B. Lippincott & Co.')"
 
 -- Task 2: Update an Existing Member's Address
 

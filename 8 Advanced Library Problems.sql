@@ -1,10 +1,10 @@
 -- Project Tasks
 
-/*
+
 ### Advanced SQL Operations
 
 Task 13: Identify Members with Overdue Books
-Write a query to identify members who have overdue books (assume a 30-day return period). Display the member's name, book title, issue date, and days overdue.
+Write a query to identify members who have overdue books (assume a 30-day return period). Display the member''s name, book title, issue date, and days overdue.
 
 
 Task 14: Update Book Status on Return
@@ -26,7 +26,7 @@ Write a query to find the top 3 employees who have processed the most book issue
 
 
 Task 18: Identify Members Issuing High-Risk Books
-Write a query to identify members who have issued books more than twice with the status "damaged" in the books table. Display the member name, book title, and the number of times they've issued damaged books.    
+Write a query to identify members who have issued books more than twice with the status "damaged" in the books table. Display the member name, book title, and the number of times they''ve issued damaged books.    
 
 
 Task 19: Stored Procedure
@@ -37,4 +37,4 @@ Objective: Create a stored procedure to manage the status of books in a library 
 
 Task 20: Create Table As Select (CTAS)
 Objective: Create a CTAS (Create Table As Select) query to identify overdue books and calculate fines.
-*/
+    

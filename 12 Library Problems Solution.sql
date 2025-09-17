@@ -84,7 +84,7 @@ SELECT
     b.manager_id,
     e2.emp_name AS manager
 FROM employees AS e1
-JOIN branch AS b ON b.branch_id = e1.branch_id
+JOIN branch AS b ON b.branch_id = e1.emp_branch_id
 JOIN employees AS e2 ON b.manager_id = e2.emp_id;
 
 -- Task 11: Create Table of Books with Rental Price > 7 USD

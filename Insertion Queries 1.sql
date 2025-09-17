@@ -27,7 +27,7 @@ SELECT * FROM branch;
 
 
 -- Insert values into each employees table
-INSERT INTO employees(emp_id, emp_name, position, salary, branch_id) 
+INSERT INTO employees(emp_id, emp_name, position, salary, emp_branch_id) 
 VALUES
 ('E101', 'John Doe', 'Clerk', 60000.00, 'B001'),
 ('E102', 'Jane Smith', 'Clerk', 45000.00, 'B002'),

@@ -1,6 +1,6 @@
 -- Library System Management Project
 
--- CREATE DATABASE Library;
+-- ### 1. CREATE DATABASE Setup;
 -- Create and select the database
 CREATE DATABASE IF NOT EXISTS Library;
 USE Library;

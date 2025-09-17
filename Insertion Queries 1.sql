@@ -124,7 +124,7 @@ VALUES
 
 
 -- inserting into return table
-INSERT INTO return_status(return_id, issued_id, return_date) 
+INSERT INTO return_status(return_id, return_issued_id, return_date) 
 VALUES
 ('RS101', 'IS106', '2023-06-06'),
 ('RS102', 'IS107', '2023-06-07'),

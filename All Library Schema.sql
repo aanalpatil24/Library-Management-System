@@ -75,12 +75,12 @@ CREATE TABLE issued_status (
 DROP TABLE IF EXISTS return_status;
 CREATE TABLE return_status (
     return_id VARCHAR(15) PRIMARY KEY,
-    issued_id VARCHAR(15) NOT NULL,
+    return_issued_id VARCHAR(15) NOT NULL,
     return_book_name VARCHAR(255),
     return_date DATE,
     return_book_isbn VARCHAR(100),
     book_quality ENUM('Good', 'Damaged') DEFAULT 'Good',
-    FOREIGN KEY (issued_id) REFERENCES issued_status(issued_id)
+    FOREIGN KEY (return_issued_id) REFERENCES issued_status(issued_id)
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     FOREIGN KEY (return_book_isbn) REFERENCES books(isbn)

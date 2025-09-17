@@ -126,7 +126,7 @@ VALUES
 
 
 -- inserting into return table
-INSERT INTO return_status(return_id, issued_id, return_date) 
+INSERT INTO return_status(return_id, return_issued_id, return_date) 
 VALUES
 ('RS101', 'IS106', '2023-06-06'),
 ('RS102', 'IS107', '2023-06-07'),
@@ -177,7 +177,7 @@ ADD COLUMN book_quality VARCHAR(15) DEFAULT 'Good';
 -- Update book quality to 'Damaged' for specific issued_ids
 UPDATE return_status
 SET book_quality = 'Damaged'
-WHERE issued_id IN ('IS112', 'IS117', 'IS118');
+WHERE return_issued_id IN ('IS112', 'IS117', 'IS118');
 
 -- View updated return_status table
 SELECT * FROM return_status;

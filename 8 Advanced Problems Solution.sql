@@ -88,7 +88,7 @@ SELECT
     SUM(bk.rental_price) AS total_revenue
 FROM issued_status AS ist
 JOIN employees AS e ON e.emp_id = ist.issued_emp_id
-JOIN branch AS b ON e.branch_id = b.branch_id
+JOIN branch AS b ON e.emp_branch_id = b.branch_id
 LEFT JOIN return_status AS rs ON rs.issued_id = ist.issued_id
 JOIN books AS bk ON ist.issued_book_isbn = bk.isbn
 GROUP BY b.branch_id, b.manager_id;
@@ -115,7 +115,7 @@ SELECT
     COUNT(ist.issued_id) AS no_book_issued
 FROM issued_status AS ist
 JOIN employees AS e ON e.emp_id = ist.issued_emp_id
-JOIN branch AS b ON e.branch_id = b.branch_id
+JOIN branch AS b ON e.emp_branch_id = b.branch_id
 GROUP BY e.emp_name, b.branch_id, b.manager_id
 ORDER BY no_book_issued DESC
 LIMIT 3;

@@ -20,7 +20,7 @@ ADD COLUMN book_quality VARCHAR(15) DEFAULT 'Good';
 -- Update book quality to 'Damaged' for specific issued_ids
 UPDATE return_status
 SET book_quality = 'Damaged'
-WHERE issued_id IN ('IS112', 'IS117', 'IS118');
+WHERE return_issued_id IN ('IS112', 'IS117', 'IS118');
 
 -- View updated return_status table
 SELECT * FROM return_status;

@@ -18,7 +18,7 @@ SELECT
 FROM issued_status AS ist
 JOIN members AS m ON m.member_id = ist.issued_member_id
 JOIN books AS bk ON bk.isbn = ist.issued_book_isbn
-LEFT JOIN return_status AS rs ON rs.issued_id = ist.issued_id
+LEFT JOIN return_status AS rs ON rs.return_issued_id = ist.issued_id
 WHERE 
     rs.return_date IS NULL
     AND DATEDIFF(CURDATE(), ist.issued_date) > 30
@@ -32,12 +32,12 @@ WHERE isbn IN (
     FROM (
         SELECT ist.issued_book_isbn
         FROM issued_status ist
-        JOIN return_status rs ON rs.issued_id = ist.issued_id
+        JOIN return_status rs ON rs.return_issued_id = ist.issued_id
     ) AS t
 );
 
 -- Insert a return record
-INSERT INTO return_status(return_id, issued_id, return_date, book_quality)
+INSERT INTO return_status(return_id, return_issued_id, return_date, book_quality)
 VALUES ('RS125', 'IS130', CURDATE(), 'Good');
 
 -- MySQL Stored Procedure for Task 14
@@ -45,7 +45,7 @@ DELIMITER $$
 
 CREATE PROCEDURE add_return_records(
     IN p_return_id VARCHAR(15),
-    IN p_issued_id VARCHAR(15),
+    IN p_return_issued_id VARCHAR(15),
     IN p_book_quality ENUM('Good','Damaged')
 )
 BEGIN
@@ -53,8 +53,8 @@ BEGIN
     DECLARE v_book_name VARCHAR(255);
 
     -- Insert into return_status
-    INSERT INTO return_status(return_id, issued_id, return_date, book_quality)
-    VALUES (p_return_id, p_issued_id, CURDATE(), p_book_quality);
+    INSERT INTO return_status(return_id, return_issued_id, return_date, book_quality)
+    VALUES (p_return_id, p_return_issued_id, CURDATE(), p_book_quality);
 
     -- Fetch ISBN and book name
     SELECT issued_book_isbn, issued_book_name
@@ -89,7 +89,7 @@ SELECT
 FROM issued_status AS ist
 JOIN employees AS e ON e.emp_id = ist.issued_emp_id
 JOIN branch AS b ON e.emp_branch_id = b.branch_id
-LEFT JOIN return_status AS rs ON rs.issued_id = ist.issued_id
+LEFT JOIN return_status AS rs ON rs.return_issued_id = ist.issued_id
 JOIN books AS bk ON ist.issued_book_isbn = bk.isbn
 GROUP BY b.branch_id, b.manager_id;
 
@@ -130,7 +130,7 @@ SELECT
 FROM issued_status ist
 JOIN members m ON m.member_id = ist.issued_member_id
 JOIN books bk ON bk.isbn = ist.issued_book_isbn
-JOIN return_status rs ON rs.issued_id = ist.issued_id
+JOIN return_status rs ON rs.return_issued_id = ist.issued_id
 WHERE rs.book_quality = 'Damaged'
 GROUP BY m.member_id, m.member_name, bk.book_title
 HAVING COUNT(*) > 2
@@ -188,7 +188,7 @@ SELECT
     SUM(GREATEST(DATEDIFF(CURDATE(), ist.issued_date) - 30, 0) * 0.50) AS total_fine,
     COUNT(ist.issued_id) AS total_books_issued
 FROM issued_status AS ist
-LEFT JOIN return_status rs ON rs.issued_id = ist.issued_id
+LEFT JOIN return_status rs ON rs.return_issued_id = ist.issued_id
 WHERE rs.return_date IS NULL
   AND DATEDIFF(CURDATE(), ist.issued_date) > 30
 GROUP BY ist.issued_member_id;

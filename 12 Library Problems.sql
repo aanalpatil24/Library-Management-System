@@ -22,8 +22,8 @@ CREATE TABLE employees (
     emp_name VARCHAR(50) NOT NULL,
     position VARCHAR(25),
     salary DECIMAL(10,2),
-    branch_id VARCHAR(15),
-    FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
+    emp_branch_id VARCHAR(15),
+    FOREIGN KEY (emp_branch_id) REFERENCES branch(branch_id)
         ON DELETE SET NULL 
         ON UPDATE CASCADE,
 	FOREIGN KEY (emp_id) REFERENCES branch(manager_id)

@@ -98,7 +98,7 @@ SELECT * FROM books_price_greater_than_seven;
 -- Task 12: Retrieve List of Books Not Yet Returned
 SELECT DISTINCT ist.issued_book_name
 FROM issued_status AS ist
-LEFT JOIN return_status AS rs ON ist.issued_id = rs.issued_id
+LEFT JOIN return_status AS rs ON ist.issued_id = rs.return_issued_id
 WHERE rs.return_id IS NULL;
 
 SELECT * FROM return_status;

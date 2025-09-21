@@ -9,7 +9,7 @@ USE Library;
 DROP TABLE IF EXISTS branch;
 CREATE TABLE branch (
     branch_id VARCHAR(15) PRIMARY KEY,
-    manager_id VARCHAR(15) UNIQUE NOT NULL,
+    manager_id VARCHAR(15) NOT NULL,
     branch_address VARCHAR(255) NOT NULL,
     contact_no VARCHAR(15) NOT NULL
 );
@@ -24,9 +24,6 @@ CREATE TABLE employees (
     emp_branch_id VARCHAR(15),
     FOREIGN KEY (emp_branch_id) REFERENCES branch(branch_id)
         ON DELETE SET NULL 
-        ON UPDATE CASCADE,
-	FOREIGN KEY (emp_id) REFERENCES branch(manager_id)
-        ON DELETE CASCADE 
         ON UPDATE CASCADE
 );
 
